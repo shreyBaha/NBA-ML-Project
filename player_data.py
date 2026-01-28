@@ -167,7 +167,7 @@ def get_player_profile(player_id, season="2023-24", tracking_df=None):
         team_id=profile["team_id"]
     ).get_data_frames()[0]
     
-    zone_stats = (
+    zone_stats_df = (
         shots
         .groupby("SHOT_ZONE_BASIC")
         .agg(
@@ -182,8 +182,20 @@ def get_player_profile(player_id, season="2023-24", tracking_df=None):
         .reset_index()
     )
 
-    zone_stats["fg_pct"] = zone_stats["fg_pct"].round(3)
-    zone_stats["efg_pct"] = zone_stats["efg_pct"].round(3)
+    # Round percentages
+    zone_stats_df["fg_pct"] = zone_stats_df["fg_pct"].round(3)
+    zone_stats_df["efg_pct"] = zone_stats_df["efg_pct"].round(3)
+
+    # Convert to nested dictionary
+    zone_stats = {
+        row["SHOT_ZONE_BASIC"]: {
+            "attempts": int(row["attempts"]),
+            "fg_pct": row["fg_pct"],
+            "efg_pct": row["efg_pct"]
+        }
+        for _, row in zone_stats_df.iterrows()
+    }
+
     profile.update(zone_stats)
 
     # # 5) Passing / Playmaking
