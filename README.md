@@ -13,7 +13,7 @@ I believe in order to best understand each player's role and value we must consi
     - Horizontal
     - Vertical
 - Speed
-- Other measureables (ex. Arm length)
+- Other measureables (ex. Arm length) \\
 Some of these are by objective measurements, however for attributes such as agility and jumping must be
 evaluated through combine workout data where we deem what workouts translate to practical movements on the court 
 and what attribute those movements correlate to. 
