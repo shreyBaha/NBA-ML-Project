@@ -1,7 +1,7 @@
 # NBA Player evaluation and team fit
 The goal of this project is to quantify player profiles through various statistics in order 
 to compare them to one another and to predict what players fit best for what teams.
-## How do are players quantified
+## How are players quantified
 I believe in order to best understand each player's role and value we must consider the following:
 ### Physical Attributes
 - Height
@@ -21,8 +21,27 @@ evaluated through combine workout data where we deem what workouts translate to 
 and what attribute those movements correlate to. 
 ### Offensive profile
 - Volume
-- Efficiency
+    - FGA/100 pos
+    - Usage%
+    - On-ball time
+    - Min/G
+- Shotchart
+    - Shot Type (ex. Mid-Range)
+        - attempts
+        - fg%
+        - efg%
+    - Free throws
+        - attempts
+        - ft%
 - Shot diet
+    - Shot Type (ex. Catch and Shoot 3)
+        - attempts
+        - efficiency  
 - On-ball reliability
+    - TOV/touch, ast:tov, TOV rate
 - Playmaking 
-- Gravity
+    - Assists
+    - Potential assists
+    - Secondary assists
+    - Passes/touch
+    - touches/G
