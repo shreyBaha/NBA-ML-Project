@@ -26,7 +26,7 @@ and what attribute those movements correlate to.
     - On-ball time
     - Min/G
 - Shotchart
-    - Shot Type (ex. Mid-Range)
+    - Shot Zone (ex. Mid-Range)
         - attempts
         - fg%
         - efg%
@@ -34,9 +34,22 @@ and what attribute those movements correlate to.
         - attempts
         - ft%
 - Shot diet
-    - Shot Type (ex. Catch and Shoot 3)
-        - attempts
-        - efficiency  
+    - General 
+        - Shot type (ex. Catch and Shoot 3)
+            - attempts
+            - efficiency
+    - Dribble Shooting
+        - Range
+            - attempts
+            - efficiency 
+    - Jump Shooting
+        - Contest Range
+            - attempts
+            - efficiency
+    - Possesion shooting
+        - Time with ball
+            - attempts 
+            - efficiency 
 - On-ball reliability
     - TOV/touch, ast:tov, TOV rate
 - Playmaking 

@@ -3,6 +3,18 @@
 import pandas as pd
 from nba_api.stats.endpoints import *
 
+def summarize_shooting(df, label_col):
+    return {
+        row[label_col]: {
+            "2fg": (row["FG2A"]),
+            "2fg_made": (row["FG2M"]),
+            "3fg": (row["FG3A"]),
+            "3fg_made": (row["FG3M"])
+        }
+        for _, row in df.iterrows()
+        if pd.notna(row[label_col])
+    }
+
 def get_player_profile(player_id, season="2023-24", tracking_df=None):
     profile = {}
     # 1) Bio / Position / Size
@@ -67,7 +79,6 @@ def get_player_profile(player_id, season="2023-24", tracking_df=None):
         per_mode_detailed="Per100Possessions"
     ).get_data_frames()[0]
     player_per_100 = stats_per_100[stats_per_100["PLAYER_ID"] == player_id].iloc[0]
-    print(player_per_100["FGM"])
     profile.update({"volume": {
         "USG_PCT": round(USG, 2).item(),
         "FGA_100": player_per_100["FGA"].item(),
@@ -136,10 +147,51 @@ def get_player_profile(player_id, season="2023-24", tracking_df=None):
         }
         for _, row in zone_stats_df.iterrows()
     }
-    zone_stats.update({"Free Throw": {"attempts": player["FTA"], "fg_pct": player["FT_PCT"], "efg_pct": player["FT_PCT"]}})
+    zone_stats.update({"Free Throw": {"attempts": player["FTA"].item(), "fg_pct": player["FT_PCT"].item(), "efg_pct": player["FT_PCT"].item()}})
 
     profile.update({"shotchart": zone_stats})
 
+    shots = playerdashptshots.PlayerDashPtShots(
+        player_id=player_id,
+        season=season,
+        season_type_all_star="Regular Season",
+        per_mode_simple="Totals",
+        team_id=profile["team_id"]
+    ).get_data_frames()
+    
+    DATASET_NAMES = [
+    "OVERALL",
+    "GENERALSHOOTING",
+    "SHOTCLOCKSHOOTING",
+    "DRIBBLESHOOTING",
+    "CLOSESTDEFENDERSHOOTING",
+    "CLOSESTDEFENDER10FTPLUSSHOOTING",
+    "TOUCHTIMESHOOTING"
+    ]
+    shots = dict(zip(DATASET_NAMES, shots))
+    shot_diet = {
+    "General": summarize_shooting(
+        shots["GENERALSHOOTING"],
+        "SHOT_TYPE"
+    ),
+
+    "Dribble Shooting": summarize_shooting(
+        shots["DRIBBLESHOOTING"],
+        "DRIBBLE_RANGE"
+    ),
+
+    "Jump Shooting": summarize_shooting(
+        shots["CLOSESTDEFENDER10FTPLUSSHOOTING"],
+        "CLOSE_DEF_DIST_RANGE"
+    ),
+
+    "Possesion Shooting": summarize_shooting(
+        shots["TOUCHTIMESHOOTING"],
+        "TOUCH_TIME_RANGE"
+    )
+    }
+    #print(list(shots["SORT_ORDER"].items()))
+    profile.update({"shot_diet": shot_diet})
     return profile
 
 if __name__ == "__main__":
