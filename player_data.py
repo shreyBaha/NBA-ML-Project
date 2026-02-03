@@ -66,12 +66,20 @@ def get_player_profile(player_id, season="2023-24", tracking_df=None):
     team_fta = team_stats["FTA"]
     team_tov = team_stats["TOV"]
     team_fgm = team_stats["FGM"]
+    team_ast = team_stats["AST"]
 
     USG = 100 * ((FGA + 0.44 * FTA + TOV) * (team_minutes)) / (MP * (team_fga + 0.44 * team_fta + team_tov))
-    TS = PTS / (2 * (FGA + 0.44 * FTA))
-    ASTP = 100 * AST * (team_minutes) / (MP * (team_fgm - FGM))
-    EFG = (FGM + 0.5 * FG3M) / FGA
+    ASTP = AST/team_ast*100
     TOVP = 100 * TOV / (FGA + 0.44 * FTA + TOV)
+    # print(f"Team FGM: {team_fgm}, Player FGM: {FGM}, Team minutes: {team_minutes}, Player MP: {MP}")
+    # print(ASTP, TOVP, USG)
+    playmaking = {}
+    playmaking["AST_SHARE"] = ASTP.item()
+    playmaking["USG_PCT"] = USG.item()
+    playmaking["TOV_PCT"] = TOVP.item()
+    playmaking["AST"] = AST.item()
+    playmaking["TOV"] = TOV.item()
+    profile.update({"playmaking/reliability": playmaking})
 
     stats_per_100 = leaguedashplayerstats.LeagueDashPlayerStats(
         season=season,
@@ -197,7 +205,7 @@ def get_player_profile(player_id, season="2023-24", tracking_df=None):
 if __name__ == "__main__":
     season = "2023-24"
 
-    example_player_id = 201939  # Steph Curry
+    example_player_id = 1628369  # Jayson Tatum
     player_data = get_player_profile(example_player_id, season=season)
 
     for k, v in player_data.items():

@@ -23,7 +23,6 @@ and what attribute those movements correlate to.
 - Volume
     - FGA/100 pos
     - Usage%
-    - On-ball time
     - Min/G
 - Shotchart
     - Shot Zone (ex. Mid-Range)
@@ -50,11 +49,12 @@ and what attribute those movements correlate to.
         - Time with ball
             - attempts 
             - efficiency 
-- On-ball reliability
-    - TOV/touch, ast:tov, TOV rate
-- Playmaking 
-    - Assists
-    - Potential assists
-    - Secondary assists
-    - Passes/touch
-    - touches/G
+- Playmaking/Reliability 
+    - Assist Share
+    - TOV%
+    - USG%
+    - AST
+    - TOV
+
+
+There is a lot of good data available through the nba_api in regards to shot volume, location, type, and efficiency. Through this data we can effectively map player's roles and value in regards to their shooting. Unfortunately there is a lack of passing data so we must make do with some more basic stats to quantify playmaking. Unfortunetly this will lead to a lack of context to the sheer totals not properly allowing us to understand how those totals are generated which can help us infer player roles. 
