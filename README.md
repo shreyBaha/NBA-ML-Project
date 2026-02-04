@@ -57,4 +57,6 @@ and what attribute those movements correlate to.
     - TOV
 
 
-There is a lot of good data available through the nba_api in regards to shot volume, location, type, and efficiency. Through this data we can effectively map player's roles and value in regards to their shooting. Unfortunately there is a lack of passing data so we must make do with some more basic stats to quantify playmaking. Unfortunetly this will lead to a lack of context to the sheer totals not properly allowing us to understand how those totals are generated which can help us infer player roles. 
+There is a lot of good data available through the nba_api in regards to shot volume, location, type, and efficiency. Through this data we can effectively map player's roles and value in regards to their shooting. Unfortunately there is a lack of passing data so we must make do with some more basic stats to quantify playmaking. Unfortunetly this will lead to a lack of context to the sheer totals, not properly allowing us to understand how those totals are generated which can help us infer player roles. 
+
+### Defensive profile
