@@ -200,6 +200,27 @@ def get_player_profile(player_id, season="2023-24", tracking_df=None):
     }
     #print(list(shots["SORT_ORDER"].items()))
     profile.update({"shot_diet": shot_diet})
+
+    defense_cat = ["Overall", "3 Pointers", "2 Pointers", "Less Than 6Ft", "Greater Than 15Ft"]
+    def_shot_rates = {}
+    for category in defense_cat:
+        cat_stats = {}
+        shots_defended = leaguedashptdefend.LeagueDashPtDefend(
+            player_id_nullable=player_id,
+            season=season,
+            season_type_all_star="Regular Season",
+            per_mode_simple="Totals",
+            defense_category=category
+        ).get_data_frames()[0]
+        row = shots_defended.iloc[0]
+        cat_stats = {
+            "D_FGM": row.iloc[9].item(),
+            "D_FGA": row.iloc[10].item(),
+            "PCT_PLUSMINUS": row.iloc[13].item(),
+        }
+        def_shot_rates.update({category: cat_stats})
+    profile.update({"def_shot_rates": def_shot_rates})
+    hustle_stats = leaguehustlestatsplayer
     return profile
 
 if __name__ == "__main__":
