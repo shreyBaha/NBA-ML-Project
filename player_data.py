@@ -220,13 +220,29 @@ def get_player_profile(player_id, season="2023-24", tracking_df=None):
         }
         def_shot_rates.update({category: cat_stats})
     profile.update({"def_shot_rates": def_shot_rates})
-    hustle_stats = leaguehustlestatsplayer
+   
+    team_hustle_stats = leaguehustlestatsplayer.LeagueHustleStatsPlayer(
+        team_id_nullable=profile["team_id"],
+        per_mode_time="Totals",
+        season_type_all_star="Regular Season",
+        season=season
+    ).get_data_frames()[0]
+    row = team_hustle_stats[team_hustle_stats["PLAYER_ID"] == player_id]
+    player_row = row.iloc[0]
+    hustle_stats = {
+        #"PLAYER_NAME": player_row["PLAYER_NAME"],
+        "CONTESTED_SHOTS_2PT": player_row["CONTESTED_SHOTS_2PT"].item(),
+        "CONTESTED_SHOTS_3PT": player_row["CONTESTED_SHOTS_3PT"].item(),
+        "DEFLECTIONS": player_row["DEFLECTIONS"].item(),
+        "CHARGES_DRAWN": player_row["CHARGES_DRAWN"].item(),
+    }
+    profile.update({"hustle_stats": hustle_stats})
     return profile
 
 if __name__ == "__main__":
     season = "2023-24"
 
-    example_player_id = 1628369  # Jayson Tatum
+    example_player_id = 201939  # 1628369-tatum 201939-curry
     player_data = get_player_profile(example_player_id, season=season)
 
     for k, v in player_data.items():
